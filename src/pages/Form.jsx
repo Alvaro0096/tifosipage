@@ -1,35 +1,43 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import es from 'date-fns/locale/es';
-import Card from './Card';
+import { Context } from '../context/Context';
 
-const Form = (props) => {
+const Form = () => {
+  const {valueContext, setValueContext} = useContext(Context);
+
   const { format } = require("date-fns");
   const [value, setValue] = useState(new Date());
-
+  
   const handleChange = (newValue) => {
     setValue(newValue);
   };
 
-  const dateValues = {
+  const [dateValues, setDateValues] = useState({
     dayName: format(value, "EEEE", {locale: es}),
     dayNum: format(value, "dd"),
     month: format(value, "MMMM", {locale: es}),
     year: format(value, "yyyy"),
-  }
-
-  const [data, setData] = useState({
     hourBegin: '00',
     hourEnd: '00',
     place: '',
     address: '',
-  });
-
+  })
+  
+  // const [data, setData] = useState({
+  //   hourBegin: '00',
+  //   hourEnd: '00',
+  //   place: '',
+  //   address: '',
+  // });
+  
   const handleSubmit = (e) => {
     e.preventDefault();
+    setValueContext(dateValues);
+    // console.log(valueContext);
   }
 
   return (
@@ -63,9 +71,9 @@ const Form = (props) => {
                 aria-describedby="hourBegin" 
                 placeholder="Desde las..." 
                 min="00"
-                max="23"
+                max="24"
                 maxLength={2}
-                onChange={(e) => setData({...data, [e.target.name]: e.target.value})}/>
+                onChange={(e) => setDateValues({...dateValues, [e.target.name]: e.target.value})}/>
               </div>
             </div>
             
@@ -80,9 +88,9 @@ const Form = (props) => {
                 aria-describedby="hourEnd" 
                 placeholder="Hasta las..." 
                 min="00"
-                max="23"
+                max="24"
                 maxLength={2}
-                onChange={(e) => setData({...data, [e.target.name]: e.target.value})}/>
+                onChange={(e) => setDateValues({...dateValues, [e.target.name]: e.target.value})}/>
               </div>
             </div>
 
@@ -102,7 +110,7 @@ const Form = (props) => {
                 placeholder="Ingrese la localidad"  
                 autoComplete='off'
                 maxLength={30}
-                onChange={(e) => setData({...data, [e.target.name]: e.target.value})}/>
+                onChange={(e) => setDateValues({...dateValues, [e.target.name]: e.target.value})}/>
               </div>
             </div>
 
@@ -117,7 +125,7 @@ const Form = (props) => {
                 placeholder="Ingrese la dirección" 
                 autoComplete='off' 
                 maxLength={30}
-                onChange={(e) => setData({...data, [e.target.name]: e.target.value})}/>
+                onChange={(e) => setDateValues({...dateValues, [e.target.name]: e.target.value})}/>
               </div>
             </div>
 
@@ -125,7 +133,6 @@ const Form = (props) => {
           <button type="submit" className="btn btn-primary btn-lg">Submit</button>
         </form>
       </div>
-      <Card />
     </>
   )
 }
