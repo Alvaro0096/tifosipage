@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { CardImg, CardContainer, DateCardTifosi } from './Card.style';
 import tifosiImg from '../assets/tifosi.png';
-import { Context } from '../context/Context';
+import { UserContext } from '../context/UserContext';
 
 const Card = () => {
-  const date = useContext(Context);
-  console.log(date)
+  const {formData} = useContext(UserContext);
+
   return (
     <>
         {/* <CardContainer>
@@ -13,8 +13,13 @@ const Card = () => {
         </CardContainer> */}
         <div className="container">
           Formulario:
-          <DateCardTifosi>{date.dayName}</DateCardTifosi>
-          <DateCardTifosi>{date.dayNum}</DateCardTifosi>
+          <p>{formData.dayName}</p>
+          <p>{formData.dayNum}</p>
+          <p>{formData.month}</p>
+          <p>{formData.hourBegin}</p>
+          <p>{formData.hourEnd}</p>
+          <p>{formData.place}</p>
+          <p>{formData.address}</p>
         </div>
     </>
   )

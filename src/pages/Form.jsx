@@ -1,43 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import es from 'date-fns/locale/es';
-import { Context } from '../context/Context';
+import { UserContext } from '../context/UserContext';
 
 const Form = () => {
-  const {valueContext, setValueContext} = useContext(Context);
+  const {date, handleChange, formData, setFormData} = useContext(UserContext);
 
-  const { format } = require("date-fns");
-  const [value, setValue] = useState(new Date());
-  
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
-
-  const [dateValues, setDateValues] = useState({
-    dayName: format(value, "EEEE", {locale: es}),
-    dayNum: format(value, "dd"),
-    month: format(value, "MMMM", {locale: es}),
-    year: format(value, "yyyy"),
-    hourBegin: '00',
-    hourEnd: '00',
-    place: '',
-    address: '',
-  })
-  
-  // const [data, setData] = useState({
-  //   hourBegin: '00',
-  //   hourEnd: '00',
-  //   place: '',
-  //   address: '',
-  // });
-  
   const handleSubmit = (e) => {
     e.preventDefault();
-    setValueContext(dateValues);
-    // console.log(valueContext);
+    console.log(date)
   }
 
   return (
@@ -53,7 +26,7 @@ const Form = () => {
                   label="Cumpleaños"
                   inputFormat="dd/MM/yyyy"
                   autoComplete="off"
-                  value={value}
+                  value={date}
                   onChange={handleChange}
                   renderInput={(params) => <TextField {...params} />}
                 />
@@ -73,7 +46,7 @@ const Form = () => {
                 min="00"
                 max="24"
                 maxLength={2}
-                onChange={(e) => setDateValues({...dateValues, [e.target.name]: e.target.value})}/>
+                onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})}/>
               </div>
             </div>
             
@@ -90,13 +63,13 @@ const Form = () => {
                 min="00"
                 max="24"
                 maxLength={2}
-                onChange={(e) => setDateValues({...dateValues, [e.target.name]: e.target.value})}/>
+                onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})}/>
               </div>
             </div>
 
           </div>
 
-          {/* THIRD ROW */}
+          {/* SECOND ROW */}
           <div className="row mb-3">
 
             <div className="col-lg-6 col-md-12">
@@ -110,7 +83,7 @@ const Form = () => {
                 placeholder="Ingrese la localidad"  
                 autoComplete='off'
                 maxLength={30}
-                onChange={(e) => setDateValues({...dateValues, [e.target.name]: e.target.value})}/>
+                onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})}/>
               </div>
             </div>
 
@@ -125,7 +98,7 @@ const Form = () => {
                 placeholder="Ingrese la dirección" 
                 autoComplete='off' 
                 maxLength={30}
-                onChange={(e) => setDateValues({...dateValues, [e.target.name]: e.target.value})}/>
+                onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})}/>
               </div>
             </div>
 
