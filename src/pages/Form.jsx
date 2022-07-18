@@ -4,13 +4,19 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { UserContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const Form = () => {
-  const {date, handleChange, formData, setFormData} = useContext(UserContext);
+  const {formData, setFormData} = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleChange = (newDate) => {
+    setFormData({...formData, date: newDate});
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(date)
+    navigate('/card');
   }
 
   return (
@@ -26,7 +32,7 @@ const Form = () => {
                   label="Cumpleaños"
                   inputFormat="dd/MM/yyyy"
                   autoComplete="off"
-                  value={date}
+                  value={formData.date}
                   onChange={handleChange}
                   renderInput={(params) => <TextField {...params} />}
                 />
@@ -45,6 +51,7 @@ const Form = () => {
                 placeholder="Desde las..." 
                 min="00"
                 max="24"
+                required
                 maxLength={2}
                 onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})}/>
               </div>
@@ -62,16 +69,15 @@ const Form = () => {
                 placeholder="Hasta las..." 
                 min="00"
                 max="24"
+                required
                 maxLength={2}
                 onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})}/>
               </div>
             </div>
-
           </div>
 
           {/* SECOND ROW */}
           <div className="row mb-3">
-
             <div className="col-lg-6 col-md-12">
               <div className="form-group">
                 <label htmlFor="place">Localidad</label>
@@ -82,7 +88,8 @@ const Form = () => {
                 name='place'
                 placeholder="Ingrese la localidad"  
                 autoComplete='off'
-                maxLength={30}
+                required
+                maxLength={20}
                 onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})}/>
               </div>
             </div>
@@ -97,13 +104,20 @@ const Form = () => {
                 name='address'
                 placeholder="Ingrese la dirección" 
                 autoComplete='off' 
-                maxLength={30}
+                required
+                maxLength={20}
                 onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})}/>
               </div>
             </div>
-
           </div>
-          <button type="submit" className="btn btn-primary btn-lg">Submit</button>
+
+          {/* THIRD ROW */}
+          <div className="row">
+            <div className="col-12 d-flex justify-content-center">
+              <button type="submit" className="btn btn-primary btn-lg m-2">VISTA PREVIA</button>
+              <button className="btn btn-primary btn-lg m-2">LIMPIAR DATOS</button>
+            </div>
+          </div>
         </form>
       </div>
     </>
